@@ -69,6 +69,7 @@ class PersonalShowsAgent(Agent.TV_Shows):
         Log.Info('Updating Metadata')
         
         main_path = media.seasons['1'].episodes['1'].items[0].parts[0].file
+        Log.Info(main_path)
 
         show_path = os.path.normpath(os.path.join(main_path, '../'))
         meta_path = os.path.join(show_path, 'meta.json')
