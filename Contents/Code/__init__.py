@@ -2,8 +2,6 @@ import os, json
 import urllib
 import hashlib
 from Helpers import clear_posters
-import pprint
-
 
 class PersonalShowsAgent(Agent.TV_Shows):
     name = 'Personal Shows'
@@ -111,22 +109,20 @@ class PersonalShowsAgent(Agent.TV_Shows):
             season_path = os.path.normpath(os.path.join(first_episode_path, '../'))
             season_name = os.path.basename(season_path)
 
-            season_summary = season_name
-            
             clear_posters(season_metadata)
             if meta_json and 'seasons' in meta_json and season_index in meta_json['seasons']:
                 season_meta_json = meta_json['seasons'][season_index]
                 
                 self.update_poster(season_metadata, season_meta_json.get('poster', 'cover.jpg'), season_path)
-                season_summary = ('%s\n%s' % (season_name, meta_json['seasons'][season_index].get('summary', ''))).strip()                    
+                season_summary = ('%s' % (meta_json['seasons'][season_index].get('summary', ''))).strip()
             else:
                 self.update_poster(season_metadata, 'cover.jpg', season_path)
-                
+                season_summary = ""
+
             season_metadata.summary = season_summary
             season_metadata.title = season_name
-            Log.Info("Metadata")
-            Log.Info(pprint.pformat(metadata))
-            self.update_season(media.seasons[season_index].id, season_summary)
+
+            #self.update_season(media.seasons[season_index].id, season_summary)
 
             for episode_index in media.seasons[season_index].episodes.keys():
                 episode_metadata = season_metadata.episodes[episode_index]
@@ -134,4 +130,4 @@ class PersonalShowsAgent(Agent.TV_Shows):
                 episode_file_name = os.path.basename(episode_path)
                 filtered_name = os.path.splitext(episode_file_name)[0].replace('S%sE%s - ' % (season_index, episode_index), '')
                 episode_name = '%s - %s' %(str(episode_index).zfill(2), filtered_name)
-                episode_metadata.title = episode_name
+                episode_metadata.title = filtered_name
