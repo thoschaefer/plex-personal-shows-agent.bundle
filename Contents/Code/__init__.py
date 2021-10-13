@@ -14,7 +14,7 @@ class PersonalShowsAgent(Agent.TV_Shows):
         x = "My Title %s %s %s" % (media.name, media.episode, media.season)
         results.Append(MetadataSearchResult(id = media.filename, score = 100, name=media.filename, lang=Locale.Language.NoLanguage))
 
-    def update_season(self, season_id, summary):
+    def update_season(self, season_id, season_metadata):
         ip_address = Prefs['ip_address']
         port = Prefs['port']
         username = Prefs['username']
@@ -30,7 +30,8 @@ class PersonalShowsAgent(Agent.TV_Shows):
         metadata = json.loads(HTTP.Request(url=('http://%s/library/metadata/%s' %(host, season_id)), immediate=True, headers={'Accept': 'application/json'}).content)
         section_id = metadata['MediaContainer']['librarySectionID']
 
-        request = HTTP.Request(url=('http://%s/library/sections/%s/all?summary.value=%s&type=3&id=%s' % (host, section_id, urllib.quote(summary), season_id)), method='PUT' )        
+        #request = HTTP.Request(url=('http://%s/library/sections/%s/all?summary.value=%s&type=3&id=%s' % (host, section_id, urllib.quote(summary), season_id)), method='PUT' )
+        request = HTTP.Request(url=('http://%s/library/sections/%s/all?title.value=%s&summary.value=%s&type=3&id=%s' % (host, section_id, season_metadata.title, season_metadata.summary, season_id)), method='PUT' )
         request.load()
 
     def update_poster(self, metadata, link, base_path = None):
@@ -122,7 +123,7 @@ class PersonalShowsAgent(Agent.TV_Shows):
             season_metadata.summary = season_summary
             season_metadata.title = season_name
 
-            #self.update_season(media.seasons[season_index].id, season_summary)
+            self.update_season(media.seasons[season_index].id, season_metadata)
 
             for episode_index in media.seasons[season_index].episodes.keys():
                 episode_metadata = season_metadata.episodes[episode_index]
