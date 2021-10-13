@@ -128,12 +128,13 @@ class PersonalShowsAgent(Agent.TV_Shows):
             self.update_season(media.seasons[season_index].id, season_metadata)
 
             for episode_index in media.seasons[season_index].episodes.keys():
+                episode_metadata = season_metadata.episodes[episode_index]
+
                 if season_meta_json and 'episodes' in season_meta_json and episode_index in season_meta_json['episodes']:
                     Log.Info("Writing episode metadata")
                     episode_meta_json = season_meta_json['episodes'][episode_index]
                     episode_metadata.summary = episode_meta_json.get('summary')
 
-                episode_metadata = season_metadata.episodes[episode_index]
                 episode_path = media.seasons[season_index].episodes[episode_index].items[0].parts[0].file
                 episode_file_name = os.path.basename(episode_path)
                 filtered_name = os.path.splitext(episode_file_name)[0].replace('S%sE%s - ' % (season_index, episode_index), '')
