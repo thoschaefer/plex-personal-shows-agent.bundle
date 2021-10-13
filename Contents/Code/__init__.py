@@ -121,6 +121,7 @@ class PersonalShowsAgent(Agent.TV_Shows):
                 self.update_poster(season_metadata, 'cover.jpg', season_path)
                 
             season_metadata.summary = season_summary
+            season_metadata.name = season_name
             self.update_season(media.seasons[season_index].id, season_summary)
             
             for episode_index in media.seasons[season_index].episodes.keys():
