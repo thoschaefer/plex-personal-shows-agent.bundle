@@ -31,7 +31,7 @@ class PersonalShowsAgent(Agent.TV_Shows):
         section_id = metadata['MediaContainer']['librarySectionID']
 
         #request = HTTP.Request(url=('http://%s/library/sections/%s/all?summary.value=%s&type=3&id=%s' % (host, section_id, urllib.quote(summary), season_id)), method='PUT' )
-        request = HTTP.Request(url=('http://%s/library/sections/%s/all?title.value=%s&summary.value=%s&type=3&id=%s' % (host, section_id, season_metadata.title, season_metadata.summary, season_id)), method='PUT' )
+        request = HTTP.Request(url=('http://%s/library/sections/%s/all?title.value=%s&summary.value=%s&type=3&id=%s' % (host, section_id, urllib.quote_plus(season_metadata.title), urllib.quote_plus(season_metadata.summary), season_id)), method='PUT' )
         request.load()
 
     def update_poster(self, metadata, link, base_path = None):
