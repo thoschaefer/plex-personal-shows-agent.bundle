@@ -69,10 +69,14 @@ class PersonalShowsAgent(Agent.TV_Shows):
         Log.Info('Updating Metadata')
         
         main_path = media.seasons['1'].episodes['1'].items[0].parts[0].file
+        Log.Info("Main Path")
         Log.Info(main_path)
 
         show_path = os.path.normpath(os.path.join(main_path, '../'))
         meta_path = os.path.join(show_path, 'meta.json')
+
+        Log.Info("Show Path")
+        Log.Info(show_path)
 
         if not os.path.exists(meta_path):
             show_path = os.path.normpath(os.path.join(main_path, '../../'))
@@ -80,6 +84,9 @@ class PersonalShowsAgent(Agent.TV_Shows):
         
         show_name = os.path.basename(show_path)
         metadata.title = show_name
+
+        Log.Info("Show Name")
+        Log.Info(show_name)
 
         if os.path.exists(meta_path):
             meta_json = json.loads(Core.storage.load(meta_path))
