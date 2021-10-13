@@ -2,6 +2,8 @@ import os, json
 import urllib
 import hashlib
 from Helpers import clear_posters
+import pprint
+
 
 class PersonalShowsAgent(Agent.TV_Shows):
     name = 'Personal Shows'
@@ -123,7 +125,7 @@ class PersonalShowsAgent(Agent.TV_Shows):
             season_metadata.summary = season_summary
             # season_metadata.name = season_name
             Log.Info("Metadata")
-            Log.Info(metadata)
+            Log.Info( pprint.pformat(metadata))
             self.update_season(media.seasons[season_index].id, season_summary)
 
             for episode_index in media.seasons[season_index].episodes.keys():
