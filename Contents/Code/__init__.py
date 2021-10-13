@@ -129,6 +129,7 @@ class PersonalShowsAgent(Agent.TV_Shows):
 
             for episode_index in media.seasons[season_index].episodes.keys():
                 if season_meta_json and 'episodes' in season_meta_json and episode_index in season_meta_json['episodes']:
+                    Log.Info("Writing episode metadata")
                     episode_meta_json = season_meta_json['episodes'][episode_index]
                     episode_metadata.summary = episode_meta_json.get('summary')
 
