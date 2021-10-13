@@ -30,7 +30,6 @@ class PersonalShowsAgent(Agent.TV_Shows):
         metadata = json.loads(HTTP.Request(url=('http://%s/library/metadata/%s' %(host, season_id)), immediate=True, headers={'Accept': 'application/json'}).content)
         section_id = metadata['MediaContainer']['librarySectionID']
 
-        #request = HTTP.Request(url=('http://%s/library/sections/%s/all?summary.value=%s&type=3&id=%s' % (host, section_id, urllib.quote(summary), season_id)), method='PUT' )
         baseUrl = 'http://%s/library/sections/%s/all?' % (host, section_id)
         params = {'title.value': season_metadata.title, 'summary.value': season_metadata.summary, 'type': 3, 'id': season_id}
         encodedUrl = baseUrl + urllib.urlencode(params)
@@ -129,6 +128,10 @@ class PersonalShowsAgent(Agent.TV_Shows):
             self.update_season(media.seasons[season_index].id, season_metadata)
 
             for episode_index in media.seasons[season_index].episodes.keys():
+                if season_meta_json and 'episodes' in season_meta_json and episode_index in season_meta_json['episodes']:
+                    episode_meta_json = season_meta_json['episodes'][episode_index]
+                    episode_metadata.summary = episode_meta_json.get('summary')
+
                 episode_metadata = season_metadata.episodes[episode_index]
                 episode_path = media.seasons[season_index].episodes[episode_index].items[0].parts[0].file
                 episode_file_name = os.path.basename(episode_path)
