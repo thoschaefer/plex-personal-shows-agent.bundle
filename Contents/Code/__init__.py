@@ -137,6 +137,6 @@ class PersonalShowsAgent(Agent.TV_Shows):
 
                 episode_path = media.seasons[season_index].episodes[episode_index].items[0].parts[0].file
                 episode_file_name = os.path.basename(episode_path)
-                filtered_name = os.path.splitext(episode_file_name)[0].replace('S%02dE%02d - ' % (season_index, episode_index), '')
+                filtered_name = os.path.splitext(episode_file_name)[0].replace('S%sE%s - ' % (season_index, episode_index), '')
                 episode_name = '%s - %s' %(str(episode_index).zfill(2), filtered_name)
                 episode_metadata.title = filtered_name
