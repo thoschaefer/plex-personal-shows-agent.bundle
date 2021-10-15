@@ -143,6 +143,8 @@ class PersonalShowsAgent(Agent.TV_Shows):
                     Log.Info("Writing episode metadata for season %s, episode %s" % (season_index, episode_index))
                     episode_meta_json = season_meta_json['episodes'][episode_index]
                     episode_metadata.summary = episode_meta_json.get('summary')
+                else:
+                    episode_metadata.summary = ""
 
                 episode_path = media.seasons[season_index].episodes[episode_index].items[0].parts[0].file
                 episode_file_name = os.path.basename(episode_path)
