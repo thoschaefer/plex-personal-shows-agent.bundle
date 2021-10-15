@@ -129,6 +129,7 @@ class PersonalShowsAgent(Agent.TV_Shows):
             else:
                 self.update_poster(season_metadata, 'cover.jpg', season_path)
                 season_summary = ""
+                season_meta_json = ""
 
             season_metadata.summary = season_summary
             season_metadata.title = season_name
@@ -139,7 +140,7 @@ class PersonalShowsAgent(Agent.TV_Shows):
                 episode_metadata = season_metadata.episodes[episode_index]
 
                 if season_meta_json and 'episodes' in season_meta_json and episode_index in season_meta_json['episodes']:
-                    Log.Info("Writing episode metadata")
+                    Log.Info("Writing episode metadata for season %s, episode %s" % (season_index, episode_index))
                     episode_meta_json = season_meta_json['episodes'][episode_index]
                     episode_metadata.summary = episode_meta_json.get('summary')
 
